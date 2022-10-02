@@ -125,6 +125,3 @@ public class Main {
         return Double.parseDouble(total); 
     }
 }
-
-
-
