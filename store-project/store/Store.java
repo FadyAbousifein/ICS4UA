@@ -5,7 +5,10 @@
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Scanner; 
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+import javax.sound.midi.Receiver; 
 
  public class Store {
 
@@ -24,15 +27,26 @@ import java.util.Scanner;
 
     // promts the user to select quantity of products they would like to purchase
     public static void itemSelection(Scanner scanner) {
+
         System.out.print("Would you like to write an AP Exam? (Y/N): ");
         String input1 = scanner.next().toUpperCase();
+
         int input2;
 
-        if(input1.equals("Y")) {
-            System.out.print("How many AP exams would you like to write: ");
-            input2 = scanner.nextInt(); 
-        } else {
-            input2 = 0; 
+        while(true) {
+            if(input1.equals("Y")) {
+                System.out.print("How many AP exams would you like to write: ");
+                input2 = scanner.nextInt(); 
+                if(input2 < 0 || input2 > 20) {
+                    System.out.println("Please input a realistic positive number!");
+                    continue; 
+                } else { 
+                    break;
+                }
+            } else {
+                input2 = 0; 
+                break; 
+            }
         }
 
         System.out.print("Would you like to write the SAT: ");
@@ -98,7 +112,22 @@ import java.util.Scanner;
         if(anotherExam.equals("EXAM")) {
             System.out.print("How many more AP exams would you like to write? ");
             int extraExams = scanner.nextInt(); 
-            reciept(subTotal, extraExams);
+            System.out.print("Would you like to donate to our definitley real non-profit organiaztion? ");
+            String donation = scanner.next().toUpperCase(); 
+            if(donation.equals("Y")) {
+                while(true) {
+                    System.out.print("How much would you like to donate? ");
+                    try{
+                        double donationAmount = scanner.nextDouble(); 
+                        reciept(subTotal, extraExams, donationAmount); 
+                        break; 
+                    } catch(InputMismatchException e) {
+                        System.out.println("Please enter a valid double");
+                        continue; 
+                    }
+                }
+            }
+            // reciept(subTotal, extraExams);
         
         } else {
            reciept(subTotal);
@@ -131,13 +160,13 @@ import java.util.Scanner;
     }
     
     // displays reciept if you did write extra exams
-    public static void reciept(double subTotal, int extraExams) {
+    public static void reciept(double subTotal, int extraExams, double donationAmount) {
 
         int random = (int)(Math.random() * 100) + 1; 
         if(random == 1) {
             System.out.println("How did you win everything for free it was a one in 100 chance... congratulations I guess");
         } else {
-            double newSubTotal = subTotal + (extraExams * 205);
+            double newSubTotal = subTotal + (extraExams * 205) + donationAmount;
             String newSTotal = String.format("%,.2f", newSubTotal);
             System.out.println("\nYour new subtotal is: $" + newSTotal);
             Calendar calendar = Calendar.getInstance(); 
