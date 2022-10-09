@@ -117,7 +117,7 @@ import javax.sound.midi.Receiver;
             if(donation.equals("Y")) {
                 while(true) {
                     System.out.print("How much would you like to donate? ");
-                    try{
+                    try {
                         double donationAmount = scanner.nextDouble(); 
                         reciept(subTotal, extraExams, donationAmount); 
                         break; 
@@ -126,6 +126,9 @@ import javax.sound.midi.Receiver;
                         continue; 
                     }
                 }
+            } else {
+                double donationAmount = 0; 
+                reciept(subTotal, extraExams, donationAmount);
             }
             // reciept(subTotal, extraExams);
         
