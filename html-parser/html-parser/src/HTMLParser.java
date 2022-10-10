@@ -32,6 +32,7 @@ public class HTMLParser {
             // TODO Auto-generated catch block
             e.printStackTrace();
         } 
+        scanner.close(); 
     }
 
     public static String getTitle(String htmlCode)  {
