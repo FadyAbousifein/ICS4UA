@@ -23,7 +23,7 @@ public class HTMLParser {
 
         // retreive the HTML code from url - /z marks the end of a file
         try {
-            htmlCode = new Scanner(new URL(webPageAdress).openStream()).useDelimiter("\\z").next();
+            htmlCode = new Scanner(new URL(webPageAdress).openStream()).useDelimiter("\\Z").next();
             System.out.println("The title of the URL is: " + getTitle(htmlCode));
         } catch (MalformedURLException e) {
             // TODO Auto-generated catch block
@@ -35,11 +35,9 @@ public class HTMLParser {
         scanner.close(); 
     }
 
+    // puts the entire html code onto one line then creates a substring starting from the <title>
+    // then we create a substring of that substring to close the </title> giving us the title
     public static String getTitle(String htmlCode)  {
-        htmlCode = htmlCode.replace("\n", "").replace("\r", "");
-        htmlCode = htmlCode.substring(htmlCode.indexOf("<title>") + 7);
-        htmlCode = htmlCode.substring(0, htmlCode.indexOf("</"));
-        String title = htmlCode.trim(); 
-        return title; 
+        return htmlCode.split("<title>")[1].split("</title>")[0].trim();
     }
 }
