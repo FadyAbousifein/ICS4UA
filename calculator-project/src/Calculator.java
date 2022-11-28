@@ -32,9 +32,9 @@ public class Calculator {
             case '/': 
                 return val1 / val2; 
             case '^': 
-                return Math.pow(val1, val2); 
+                return Math.pow(val2, val1); 
             case '!': 
-                return Math.sqrt(val2);
+                return Math.sqrt(val1);
         }
         return 0; 
 

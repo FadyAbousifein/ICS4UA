@@ -19,10 +19,16 @@ public class Main {
         String expression = scanner.nextLine().replace("sqrt", "!"); 
 
         for(int i = 0; i < expression.length(); i++) {
-
             if(Character.isDigit(expression.charAt(i))) {
-                operands.push((double) expression.charAt(i) - '0');
-            } else if(expression.charAt(i) == '+' || expression.charAt(i) == '-' || expression.charAt(i) == '*' || expression.charAt(i) == '/' || expression.charAt(i) == '^' || expression.charAt(i) == '!') {
+                String token = "";
+                token = expression.substring(i).split("[^0-9.]")[0];
+                
+                operands.push(Double.parseDouble(token));
+                
+                i += token.length(); 
+                i--; 
+                
+            } else if(expression.charAt(i) == '+' || expression.charAt(i) == '-' || expression.charAt(i) == '*' || expression.charAt(i) == '/' || expression.charAt(i) == '^') {
 
                 while(operators.size() > 0 && Calculator.presedenceIdentifier(operators.peek()) >= Calculator.presedenceIdentifier(expression.charAt(i))) {
                     
@@ -32,21 +38,22 @@ public class Main {
 
                     double evaluationResult = Calculator.operation(val1, val2, operator);
                     operands.push(evaluationResult);
-                }
+                    System.out.println(evaluationResult + " " + val1 + " " + val2 + " " + operator);
+                } 
                 operators.push(expression.charAt(i));
-            }
-
-        }  
+            }  
+        }
+         
         while(operators.size() != 0) {
 
-            double val1 = operands.pop(); 
-            double val2 = operands.pop();
-            char operator = operators.pop();
-
-            double evaluationResult = Calculator.operation(val1, val2, operator);
-            operands.push(evaluationResult);
+                char operator = operators.pop();
+                double val1 = operands.pop();
+                double val2 = operands.pop();
+        
+                double evaluationResult = Calculator.operation(val1, val2, operator);
+                operands.push(evaluationResult);
+                System.out.println(evaluationResult + " " + val1 + " " + val2 + " " + operator);
         }
         System.out.println("Answer: " + operands.peek());
-
     }
 }
